@@ -1,14 +1,14 @@
 locals {
-  infra_config_name              = "example_infra_config"
-  recipe_name                    = "example_recipe"
-  recipe_version                 = "1.0.0"
+  infra_config_name              = var.infra_config_name
+  recipe_name                    = var.recipe_name
+  recipe_version                 = var.recipe_version
   component_arn                  = "arn:aws:imagebuilder:us-east-1:${var.account_id}:component/example"
-  parent_image_arn               = "arn:aws:imagebuilder:us-east-1:aws:image/amazon-linux-2-x86/x.x.x"
-  device_name                    = "/dev/xvda"
-  ebs_volume_size                = 10
-  ebs_delete_on_terminate        = true
-  pipeline_name                  = "example_pipeline"
-  source_region                  = "us-east-1"
+  parent_image_arn               = var.parent_image_arn
+  device_name                    = var.device_name
+  ebs_volume_size                = var.ebs_volume_size
+  ebs_delete_on_terminate        = var.ebs_delete_on_terminate
+  pipeline_name                  = var.pipeline_name
+  source_region                  = var.source_region
   source_distribution_config_arn = aws_imagebuilder_distribution_configuration.example.arn
   source_image_recipe_arn        = aws_imagebuilder_image_recipe.example.arn
   infrastructure_config_name     = local.infrtruea_config_name
@@ -39,16 +39,15 @@ resource "aws_imagebuilder_image_recipe" "example" {
 
 
 resource "aws_imagebuilder_distribution_configuration" "example" {
-  name        = "example_distribution_config"
+  name        = var.aws_imagebuilder_distribution_configuration_name
   description = "Example distribution configuration for EC2 Image Builder"
 
   distribution {
-    region = "us-east-1"
+    region = var.distribution_region
     ami_distribution_configuration {
-      name = "example_ami_distribution"
+      name = var.ami_distribution_configuration_name
     }
   }
-
 
   tags = {
     Environment = "Dev"
